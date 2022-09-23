@@ -1,0 +1,733 @@
+  [1m[35m (30.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS "blog_web_test"[0m
+  [1m[35m (271.1ms)[0m  [1m[35mCREATE DATABASE "blog_web_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  [1m[35m (7.9ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "content" text, "post_id" bigint NOT NULL, "user_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE INDEX "index_comments_on_post_id" ON "comments" ("post_id")[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE INDEX "index_comments_on_user_id" ON "comments" ("user_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "posts" CASCADE[0m
+  [1m[35m (7.3ms)[0m  [1m[35mCREATE TABLE "posts" ("id" bigserial primary key, "title" character varying, "content" text, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (6.2ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (3.2ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_2fd19c0db7"
+FOREIGN KEY ("post_id")
+  REFERENCES "posts" ("id")
+[0m
+  [1m[35m (2.2ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_03de2dc08c"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (5.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20220915030755)[0m
+  [1m[35m (1.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20220913102252),
+(20220913102522),
+(20220914061956);
+
+[0m
+  [1m[35m (5.6ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.6ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2022-09-21 02:14:44.612409"], ["updated_at", "2022-09-21 02:14:44.612409"]]
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "0b59d8cfeb903f704dbeb6ea10c328e7666289b6"], ["created_at", "2022-09-21 02:14:44.620241"], ["updated_at", "2022-09-21 02:14:44.620241"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 10:03:47 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.6ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 148.0ms | Allocations: 91488)
+Completed 200 OK in 157ms (Views: 148.7ms | ActiveRecord: 1.5ms | Allocations: 101319)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 10:05:33 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 4.1ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.4ms | Allocations: 324)
+  Rendered layout layouts/application.html.erb (Duration: 44.6ms | Allocations: 35534)
+Completed 200 OK in 60ms (Views: 47.0ms | ActiveRecord: 2.1ms | Allocations: 45365)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 10:05:33 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.5ms | Allocations: 897)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 11.0ms | Allocations: 6598)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 13.0ms | Allocations: 8285)
+Completed 200 OK in 32ms (Views: 14.4ms | ActiveRecord: 2.7ms | Allocations: 26668)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 10:07:38 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.6ms | Allocations: 324)
+  Rendered layout layouts/application.html.erb (Duration: 31.5ms | Allocations: 35592)
+Completed 200 OK in 39ms (Views: 32.5ms | ActiveRecord: 1.1ms | Allocations: 45422)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 10:07:38 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.9ms | Allocations: 897)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 11.1ms | Allocations: 6595)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 13.2ms | Allocations: 8269)
+Completed 200 OK in 31ms (Views: 15.2ms | ActiveRecord: 2.8ms | Allocations: 26649)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 10:08:32 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.8ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 57.6ms | Allocations: 34927)
+Completed 200 OK in 69ms (Views: 59.5ms | ActiveRecord: 1.4ms | Allocations: 44757)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 10:08:32 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.9ms | Allocations: 897)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 11.7ms | Allocations: 6594)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 13.2ms | Allocations: 8268)
+Completed 200 OK in 30ms (Views: 14.8ms | ActiveRecord: 1.8ms | Allocations: 26649)
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 10:10:27 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.8ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 45.9ms | Allocations: 35373)
+Completed 200 OK in 57ms (Views: 46.9ms | ActiveRecord: 1.9ms | Allocations: 45203)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 10:10:28 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.0ms | Allocations: 897)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 12.1ms | Allocations: 6594)
+  Rendered layouts/_navbar.html.erb (Duration: 0.3ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 13.8ms | Allocations: 8268)
+Completed 200 OK in 48ms (Views: 17.5ms | ActiveRecord: 4.9ms | Allocations: 26649)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.0ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (20.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS "blog_web_test"[0m
+  [1m[35m (94.4ms)[0m  [1m[35mCREATE DATABASE "blog_web_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "comments" CASCADE[0m
+  [1m[35m (10.5ms)[0m  [1m[35mCREATE TABLE "comments" ("id" bigserial primary key, "content" text, "post_id" bigint NOT NULL, "user_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE INDEX "index_comments_on_post_id" ON "comments" ("post_id")[0m
+  [1m[35m (3.5ms)[0m  [1m[35mCREATE INDEX "index_comments_on_user_id" ON "comments" ("user_id")[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "posts" CASCADE[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "posts" ("id" bigserial primary key, "title" character varying, "content" text, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "user_id" integer)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (6.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying DEFAULT '' NOT NULL, "encrypted_password" character varying DEFAULT '' NOT NULL, "reset_password_token" character varying, "reset_password_sent_at" timestamp(6), "remember_created_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL, "confirmation_token" character varying, "confirmed_at" timestamp(6), "confirmation_sent_at" timestamp(6), "unconfirmed_email" character varying)[0m
+  [1m[35m (4.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_confirmation_token" ON "users" ("confirmation_token")[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (4.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (3.7ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_2fd19c0db7"
+FOREIGN KEY ("post_id")
+  REFERENCES "posts" ("id")
+[0m
+  [1m[35m (2.1ms)[0m  [1m[35mALTER TABLE "comments" ADD CONSTRAINT "fk_rails_03de2dc08c"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+[0m
+  [1m[35m (6.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20220921035453)[0m
+  [1m[35m (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20220913102252),
+(20220913102522),
+(20220914061956),
+(20220915030755);
+
+[0m
+  [1m[35m (5.3ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2022-09-21 05:34:38.563133"], ["updated_at", "2022-09-21 05:34:38.563133"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "08b15d88e034d13a95a87e65a9658988e93eff82"], ["created_at", "2022-09-21 05:34:38.569581"], ["updated_at", "2022-09-21 05:34:38.569581"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 12:34:38 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.4ms | Allocations: 324)
+  Rendered layout layouts/application.html.erb (Duration: 25.9ms | Allocations: 35572)
+Completed 200 OK in 34ms (Views: 26.9ms | ActiveRecord: 1.2ms | Allocations: 45402)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 12:34:38 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.2ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 7.9ms | Allocations: 6770)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 8.8ms | Allocations: 8469)
+Completed 200 OK in 35ms (Views: 10.8ms | ActiveRecord: 1.9ms | Allocations: 28866)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 12:35:32 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.0ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.4ms | Allocations: 324)
+  Rendered layout layouts/application.html.erb (Duration: 26.4ms | Allocations: 35316)
+Completed 200 OK in 33ms (Views: 27.3ms | ActiveRecord: 1.0ms | Allocations: 45146)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 12:35:33 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 2.6ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 14.6ms | Allocations: 6770)
+  Rendered layouts/_navbar.html.erb (Duration: 0.4ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 17.1ms | Allocations: 8469)
+Completed 200 OK in 40ms (Views: 19.3ms | ActiveRecord: 3.5ms | Allocations: 28866)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 12:35:49 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 2.2ms | Allocations: 330)
+  Rendered layout layouts/application.html.erb (Duration: 55.4ms | Allocations: 35398)
+Completed 200 OK in 66ms (Views: 56.4ms | ActiveRecord: 1.5ms | Allocations: 45228)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 12:37:10 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.6ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.5ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 40.0ms | Allocations: 35680)
+Completed 200 OK in 52ms (Views: 41.3ms | ActiveRecord: 1.6ms | Allocations: 45510)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 12:39:07 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 2.9ms | Allocations: 329)
+  Rendered layout layouts/application.html.erb (Duration: 48.9ms | Allocations: 35438)
+Completed 200 OK in 60ms (Views: 49.9ms | ActiveRecord: 1.5ms | Allocations: 45268)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 12:39:07 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.9ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 12.9ms | Allocations: 6769)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 14.5ms | Allocations: 8468)
+Completed 200 OK in 27ms (Views: 15.5ms | ActiveRecord: 2.5ms | Allocations: 28864)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 12:40:18 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 4.4ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.5ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 50.6ms | Allocations: 35628)
+Completed 200 OK in 72ms (Views: 54.2ms | ActiveRecord: 2.1ms | Allocations: 45458)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 12:40:18 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.4ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 8.7ms | Allocations: 6769)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 9.9ms | Allocations: 8468)
+Completed 200 OK in 31ms (Views: 11.6ms | ActiveRecord: 2.6ms | Allocations: 28864)
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 12:41:45 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 1.0ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 47.3ms | Allocations: 35647)
+Completed 200 OK in 56ms (Views: 48.4ms | ActiveRecord: 1.1ms | Allocations: 45477)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 12:41:45 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 3.3ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 19.9ms | Allocations: 6769)
+  Rendered layouts/_navbar.html.erb (Duration: 0.3ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 22.9ms | Allocations: 8468)
+Completed 200 OK in 60ms (Views: 26.3ms | ActiveRecord: 4.3ms | Allocations: 28864)
+Started POST "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:02:01 +0700
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"user"=>{"email"=>"test@example.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "test@example.com"], ["LIMIT", 1]]
+Completed 401 Unauthorized in 5ms (ActiveRecord: 1.3ms | Allocations: 1405)
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"user"=>{"email"=>"test@example.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.7ms | Allocations: 194)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 4.8ms | Allocations: 1305)
+  Rendered layouts/_navbar.html.erb (Duration: 0.5ms | Allocations: 120)
+  Rendered layout layouts/application.html.erb (Duration: 9.2ms | Allocations: 2898)
+Completed 200 OK in 21ms (Views: 10.5ms | ActiveRecord: 0.0ms | Allocations: 4656)
+Started POST "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:02:36 +0700
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"user"=>{"email"=>"test@example.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+Completed 401 Unauthorized in 2ms (ActiveRecord: 0.0ms | Allocations: 409)
+Processing by Devise::SessionsController#new as HTML
+  Parameters: {"user"=>{"email"=>"test@example.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Log in"}
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.5ms | Allocations: 192)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 3.3ms | Allocations: 1183)
+  Rendered layouts/_navbar.html.erb (Duration: 0.4ms | Allocations: 119)
+  Rendered layout layouts/application.html.erb (Duration: 6.2ms | Allocations: 2715)
+Completed 200 OK in 9ms (Views: 7.2ms | ActiveRecord: 0.0ms | Allocations: 3193)
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:03:52 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.9ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 40.8ms | Allocations: 35331)
+Completed 200 OK in 55ms (Views: 41.8ms | ActiveRecord: 2.0ms | Allocations: 45161)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:03:52 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.1ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 9.1ms | Allocations: 6768)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 10.2ms | Allocations: 8467)
+Completed 200 OK in 31ms (Views: 12.1ms | ActiveRecord: 3.0ms | Allocations: 28863)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:07:01 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 4.7ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.6ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 65.3ms | Allocations: 34995)
+Completed 200 OK in 82ms (Views: 67.8ms | ActiveRecord: 1.6ms | Allocations: 44825)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:07:01 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.2ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 10.4ms | Allocations: 6768)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 11.7ms | Allocations: 8467)
+Completed 200 OK in 28ms (Views: 13.6ms | ActiveRecord: 2.9ms | Allocations: 28863)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:09:09 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 3.4ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.8ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 62.9ms | Allocations: 34950)
+Completed 200 OK in 88ms (Views: 65.0ms | ActiveRecord: 2.3ms | Allocations: 44780)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:09:09 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 2.7ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 13.6ms | Allocations: 6768)
+  Rendered layouts/_navbar.html.erb (Duration: 0.3ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 16.5ms | Allocations: 8467)
+Completed 200 OK in 41ms (Views: 19.4ms | ActiveRecord: 2.0ms | Allocations: 28863)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:14:14 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.8ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 43.7ms | Allocations: 35776)
+Completed 200 OK in 58ms (Views: 45.0ms | ActiveRecord: 1.5ms | Allocations: 45606)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:14:58 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 3.1ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.6ms | Allocations: 327)
+  Rendered layout layouts/application.html.erb (Duration: 46.5ms | Allocations: 35782)
+Completed 200 OK in 58ms (Views: 48.1ms | ActiveRecord: 1.5ms | Allocations: 45612)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:15:19 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 3.1ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.6ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 49.2ms | Allocations: 35050)
+Completed 200 OK in 62ms (Views: 50.9ms | ActiveRecord: 1.4ms | Allocations: 44880)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:17:34 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.8ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 3.6ms | Allocations: 329)
+  Rendered layout layouts/application.html.erb (Duration: 52.6ms | Allocations: 35481)
+Completed 200 OK in 68ms (Views: 54.0ms | ActiveRecord: 2.2ms | Allocations: 45311)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:17:48 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 1.0ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 50.0ms | Allocations: 35447)
+Completed 200 OK in 62ms (Views: 51.4ms | ActiveRecord: 1.7ms | Allocations: 45273)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:18:13 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.4ms | Allocations: 1312)
+  Rendered layouts/_navbar.html.erb (Duration: 0.8ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 38.2ms | Allocations: 35245)
+Completed 200 OK in 47ms (Views: 38.9ms | ActiveRecord: 1.7ms | Allocations: 45075)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:36:28 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1293)
+  Rendered layouts/_navbar.html.erb (Duration: 1.0ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 61.0ms | Allocations: 35217)
+Completed 200 OK in 72ms (Views: 62.6ms | ActiveRecord: 1.4ms | Allocations: 45046)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:36:28 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.0ms | Allocations: 3546)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:36:28 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.5ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 5.9ms | Allocations: 4522)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 7.4ms | Allocations: 6221)
+Completed 200 OK in 27ms (Views: 8.8ms | ActiveRecord: 2.9ms | Allocations: 26638)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:36:28 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms | Allocations: 340)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:36:28 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 192)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 1.6ms | Allocations: 1191)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 119)
+  Rendered layout layouts/application.html.erb (Duration: 3.0ms | Allocations: 2734)
+Completed 200 OK in 4ms (Views: 3.4ms | ActiveRecord: 0.0ms | Allocations: 3442)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:42:37 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.2ms | Allocations: 1293)
+  Rendered layouts/_navbar.html.erb (Duration: 4.1ms | Allocations: 330)
+  Rendered layout layouts/application.html.erb (Duration: 64.3ms | Allocations: 35253)
+Completed 200 OK in 76ms (Views: 65.7ms | ActiveRecord: 1.3ms | Allocations: 45082)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:42:37 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 5ms (ActiveRecord: 0.0ms | Allocations: 3546)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:42:37 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.7ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 3.6ms | Allocations: 4522)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 4.4ms | Allocations: 6221)
+Completed 200 OK in 17ms (Views: 5.4ms | ActiveRecord: 2.3ms | Allocations: 26616)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:42:37 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms | Allocations: 350)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:42:37 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.1ms | Allocations: 192)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 0.8ms | Allocations: 1191)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 119)
+  Rendered layout layouts/application.html.erb (Duration: 1.5ms | Allocations: 2734)
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.0ms | Allocations: 3436)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:42:58 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.3ms | Allocations: 1293)
+  Rendered layouts/_navbar.html.erb (Duration: 3.0ms | Allocations: 330)
+  Rendered layout layouts/application.html.erb (Duration: 68.4ms | Allocations: 35322)
+Completed 200 OK in 78ms (Views: 69.1ms | ActiveRecord: 1.7ms | Allocations: 45151)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:42:58 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 6ms (ActiveRecord: 0.0ms | Allocations: 3546)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:42:58 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.9ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 13.2ms | Allocations: 4522)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 15.3ms | Allocations: 6221)
+Completed 200 OK in 58ms (Views: 17.9ms | ActiveRecord: 7.2ms | Allocations: 26622)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:42:59 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 0ms (ActiveRecord: 0.0ms | Allocations: 356)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:42:59 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 192)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 1.0ms | Allocations: 1191)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 119)
+  Rendered layout layouts/application.html.erb (Duration: 1.8ms | Allocations: 2734)
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.0ms | Allocations: 3426)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:44:16 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.5ms | Allocations: 1293)
+  Rendered layouts/_navbar.html.erb (Duration: 0.6ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 39.0ms | Allocations: 35272)
+Completed 200 OK in 51ms (Views: 40.2ms | ActiveRecord: 1.6ms | Allocations: 45101)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:44:16 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 3ms (ActiveRecord: 0.0ms | Allocations: 3546)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:44:16 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.7ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 7.2ms | Allocations: 4522)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 9.3ms | Allocations: 6221)
+Completed 200 OK in 20ms (Views: 10.3ms | ActiveRecord: 2.0ms | Allocations: 26612)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:44:16 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms | Allocations: 338)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:44:16 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 192)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 1.7ms | Allocations: 1191)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 119)
+  Rendered layout layouts/application.html.erb (Duration: 3.0ms | Allocations: 2734)
+Completed 200 OK in 4ms (Views: 3.3ms | ActiveRecord: 0.0ms | Allocations: 3444)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:45:06 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 2.9ms | Allocations: 1293)
+  Rendered layouts/_navbar.html.erb (Duration: 0.6ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 45.4ms | Allocations: 35304)
+Completed 200 OK in 60ms (Views: 46.8ms | ActiveRecord: 1.8ms | Allocations: 45133)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:45:06 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 3ms (ActiveRecord: 0.0ms | Allocations: 3546)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:45:06 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 3.1ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 11.3ms | Allocations: 4522)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 13.3ms | Allocations: 6221)
+Completed 200 OK in 39ms (Views: 15.2ms | ActiveRecord: 3.2ms | Allocations: 26642)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:45:06 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms | Allocations: 336)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:45:06 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 192)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 1.2ms | Allocations: 1191)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 119)
+  Rendered layout layouts/application.html.erb (Duration: 2.1ms | Allocations: 2734)
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.0ms | Allocations: 3448)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for 127.0.0.1 at 2022-09-21 13:45:15 +0700
+Processing by PostsController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  Rendering layout layouts/application.html.erb
+  Rendering posts/index.html.erb within layouts/application
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."id" ASC[0m
+  Rendered posts/index.html.erb within layouts/application (Duration: 3.0ms | Allocations: 1293)
+  Rendered layouts/_navbar.html.erb (Duration: 1.0ms | Allocations: 328)
+  Rendered layout layouts/application.html.erb (Duration: 59.7ms | Allocations: 35554)
+Completed 200 OK in 70ms (Views: 61.1ms | ActiveRecord: 1.4ms | Allocations: 45383)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:45:15 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.0ms | Allocations: 3546)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:45:15 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 1.9ms | Allocations: 1081)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 12.0ms | Allocations: 4522)
+  Rendered layouts/_navbar.html.erb (Duration: 0.2ms | Allocations: 136)
+  Rendered layout layouts/application.html.erb (Duration: 13.7ms | Allocations: 6221)
+Completed 200 OK in 49ms (Views: 16.9ms | ActiveRecord: 5.0ms | Allocations: 26616)
+Started GET "/posts/new" for 127.0.0.1 at 2022-09-21 13:45:15 +0700
+Processing by PostsController#new as HTML
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms | Allocations: 346)
+Started GET "/users/sign_in" for 127.0.0.1 at 2022-09-21 13:45:15 +0700
+Processing by Devise::SessionsController#new as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering devise/sessions/new.html.erb within layouts/application
+  Rendered devise/shared/_links.html.erb (Duration: 0.2ms | Allocations: 192)
+  Rendered devise/sessions/new.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1191)
+  Rendered layouts/_navbar.html.erb (Duration: 0.1ms | Allocations: 119)
+  Rendered layout layouts/application.html.erb (Duration: 2.5ms | Allocations: 2734)
+Completed 200 OK in 4ms (Views: 2.9ms | ActiveRecord: 0.0ms | Allocations: 3436)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Pluck (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mROLLBACK[0m

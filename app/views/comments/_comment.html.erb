@@ -1,0 +1,14 @@
+<div class="card mt-3">
+<h2 class="card-header">comments</h2>
+  <% @post.comments.each do |comment| %>
+    <p>
+      <strong>
+        <%= comment.user.email%>
+      </strong>
+      <%= comment.content %>
+        <%= button_to "Delete", delete_comment_url(comment), method: :delete %>
+    </p>
+
+  <% end %>
+
+</div>

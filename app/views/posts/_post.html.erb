@@ -1,0 +1,15 @@
+<% #card untuk post %>
+<div id="<%= dom_id post %>" class="card mx-auto mt-4" style="width: 50rem">
+<% #Header post %>
+    <div class="card-header">
+        <h1><%= post.title %></h1>
+    </div>
+    <div class="card-body text-center">
+        <%= post.content %>
+    </div>
+    <div class="card-footer">
+        <p>
+            <%= link_to "Show this post", post %>
+        </p>   
+    </div>     
+</div>
