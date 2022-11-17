@@ -1,6 +1,5 @@
 stages:
   - build
-
 build:
   stage: build
   when: on_success
