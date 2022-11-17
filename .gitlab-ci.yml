@@ -10,8 +10,8 @@ stages:
     service:
       - docker:20:dind
     variables:
-      DOCKER_HOST: tcp://localhost:8080
+      DOCKER_HOST: tcp://localhost:2375
     script:
-      - docker login registry.gitlab.com
+      - docker login -u deploy-token-to-registry -p $CI_TOKEN registry.gitlab.com
       - docker build -t registry.gitlab.com/jasmineerina15/blog-web-project .
       - docker push registry.gitlab.com/jasmineerina15/blog-web-project
