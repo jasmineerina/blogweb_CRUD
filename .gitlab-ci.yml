@@ -5,10 +5,12 @@ stages:
     stage: build
     when: on_success
     only:
-      - master
-    image: docker:stable
+      - main
+    image: docker:latest
     service:
-      - docker:dind
+      - docker:20:dind
+    variables:
+      DOCKER_HOST: tcp://localhost:8080
     script:
       - docker login registry.gitlab.com
       - docker build -t registry.gitlab.com/jasmineerina15/blog-web-project .
