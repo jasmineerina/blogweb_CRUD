@@ -1,17 +1,17 @@
 stages:
   - build
 
-  build:
-    stage: build
-    when: on_success
-    only:
-      - main
-    image: docker:latest
-    service:
-      - docker:20:dind
-    variables:
-      DOCKER_HOST: tcp://localhost:2375
-    script:
-      - docker login -u deploy-token-to-registry -p $CI_TOKEN registry.gitlab.com
-      - docker build -t registry.gitlab.com/jasmineerina15/blog-web-project .
-      - docker push registry.gitlab.com/jasmineerina15/blog-web-project
+build:
+  stage: build
+  when: on_success
+  only:
+    - main
+  image: docker:latest
+  service:
+    - docker:20:dind
+  variables:
+    DOCKER_HOST: tcp://localhost:2375
+  script:
+    - docker login -u deploy-token-to-registry -p $CI_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/jasmineerina15/blog-web-project .
+    - docker push registry.gitlab.com/jasmineerina15/blog-web-project
