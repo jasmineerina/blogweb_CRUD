@@ -1,10 +1,15 @@
-staging :
+stages:
+  - build
 
-  stage: deploy
-  script:
-    - gem install dpl
-    - dpl --provider=heroku --app=$APP_NAME --api-key=$HEROKU_API_KEY
-    - curl https://cli-assets.heroku.com/install.sh | sh
-    - heroku run rails db:migrate --exit-code --app $APP_NAME
-  only :
-   - main
+  build:
+    stage: build
+    when: on_success
+    only:
+      - master
+    image: docker:stable
+    service:
+      - docker:dind
+    script:
+      - docker login registry.gitlab.com
+      - docker build -t registry.gitlab.com/jasmineerina15/blog-web-project .
+      - docker push registry.gitlab.com/jasmineerina15/blog-web-project
