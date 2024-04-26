@@ -1,14 +1,20 @@
-FROM ruby:3.0-alpine
+FROM ruby:3.1.2
 
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		postgresql-client \
+	&& rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile* ./
+
+RUN gem install bundler -v 2.0.1
 
 RUN bundle install
 
 COPY . .
 
-CMD ["./your-daemon-or-script.rb"]
+EXPOSE 3000
+
+CMD ["rails", "server", "-b", "0.0.0.0" ]
